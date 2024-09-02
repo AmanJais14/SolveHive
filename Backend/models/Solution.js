@@ -8,7 +8,9 @@ const SolutionSchema = new mongoose.Schema({
     type: String, // You can later change this to reference a User model if you implement user authentication
     required: true,
   },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+  upvotes: { type: Number, default: 0 },
+  downvotes: { type: Number, default: 0 }
 });
 
 module.exports = mongoose.model('Solution', SolutionSchema);
