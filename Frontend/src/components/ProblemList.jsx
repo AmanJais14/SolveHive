@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BiSolidUpvote } from "react-icons/bi";
 import { BiSolidDownvote } from "react-icons/bi";
+import { useNavigate } from 'react-router-dom';
 
-const ProblemList = () => {
+const ProblemList = ({setAnswer}) => {
   const [problems, setProblems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchProblems = async () => {
       try {
@@ -87,6 +88,20 @@ const ProblemList = () => {
     }
   };
 
+  const handleAISolution = async(title,text) => {
+    setAnswer('')
+    const response = await axios({
+      url : "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyAsAO_Ovjiy_nYDAPUCHMltPwB3t95wrE0",
+      method: "post",
+      data: {
+        contents: [{parts:[{text: `Please come up with solutions to my problem, my problem Title is : ${title} and it's description is : ${text}. I want no further to be asked from your side, please interpret yourself.`}]}]
+      }
+  })
+  setAnswer(response['data']['candidates'][0]['content']['parts'][0]['text']);
+  navigate('/aiexpert');
+  console.log(response['data']['candidates'][0]['content']['parts'][0]['text']);
+  
+  }
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
@@ -127,6 +142,7 @@ const ProblemList = () => {
             <h3 className="text-xl font-semibold mb-2">{problem.title}</h3>
             <p className="text-gray-700 mb-4">{problem.description}</p>
             <p className="text-gray-500 mb-4">Category: {problem.category}</p>
+            <button className="w-1/4 bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" onClick={()=>handleAISolution(problem.title,problem.description)}>Ask AI</button>
             <div className="mb-4">
               {problem.solutions && problem.solutions.length > 0 ? (
                 <div>
@@ -195,6 +211,7 @@ const ProblemList = () => {
       ) : (
         <p className="text-center text-gray-600">No problems found.</p>
       )}
+      
     </div>
   );
 };

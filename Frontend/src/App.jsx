@@ -12,9 +12,12 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import axios from "axios";
 import { FcIdea } from "react-icons/fc";
+import AIanswer from "./components/AIanswer";
 
 const App = () => {
   const [user, setUser] = useState(false);
+  const [answer, setAnswer] = useState('')
+
 
   useEffect(() => {
     // On component mount, check if user data is in localStorage
@@ -92,7 +95,7 @@ const App = () => {
           <Routes>
             <Route
               path="/"
-              element={user ? <ProblemList /> : <Navigate to="/login" />}
+              element={user ? <ProblemList setAnswer = {setAnswer}/> : <Navigate to="/login" />}
             />
             <Route
               path="/submit"
@@ -100,6 +103,7 @@ const App = () => {
             />
             <Route path="/register" element={<Register setUser={setUser} />} />
             <Route path="/login" element={<Login setUser={setUser} />} />
+            <Route path="/aiexpert" element={<AIanswer answer = {answer} />} />
           </Routes>
         </main>
       </div>
