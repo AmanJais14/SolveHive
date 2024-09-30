@@ -11,3 +11,4 @@ SolveHive is a crowdsourced problem-solving platform designed to leverage collec
 - **Upvoting/Downvoting**: Community members can upvote or downvote solutions to indicate their usefulness.
 - **Search Functionality**: Easily search for specific problems based on keywords.
 - **User Authentication**: Register and log in to manage your submissions and interactions.
+![alt text](http://"C:\Users\ajama\Desktop\register.png"/to/img.png)
